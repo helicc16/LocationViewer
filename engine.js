@@ -1,8 +1,9 @@
 //Declaring top-level variables:
 var getUpdatesBtn_clicked = false;
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var socket = io.connect(server_ip_address + ':' + server_port);
+//var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+//var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+//var socket = io.connect('http://locationviewer-bootstrapps.rhcloud.com:8000');
+var socket = io(); // without an argument in the constructor io() , socket object will connect to the server that served it the page
 
 $(document).ready(function () {
 

@@ -5,9 +5,11 @@ var express = require('express');
 
 var app = express();
 
+var http = require('http').Server(app); // creating http server using 'app' object as a handler in the argument
+
 var fs = require('fs');
 
-var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 app.get('/', function (req, res) {
@@ -60,14 +62,23 @@ app.get('/', function (req, res) {
     next();
 });
 
+//binding http server to port 3000
+http.listen(server_port, function () {
+    var host = http.address().address;
+    var port = http.address().port;
+    console.log('http server listening at http://%s:%s', host, port);
+})
+
+/*
 var server = app.listen(server_port, server_ip_address, function () { // when 'bind' activity is successful, app.listen(...) returns a HTTP server object
     var host = server.address().address;
     var port = server.address().port;
     console.log("HTTP server listening at http://%s:%s", host, port);
 
 });
+*/
 
-var io = require('socket.io').listen(server);
+var io = require('socket.io').listen(http);
 
 //when client connects, console log it
 io.sockets.on('connection', function (socket) {
