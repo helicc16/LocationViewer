@@ -1,7 +1,7 @@
 //Declaring top-level variables:
 var getUpdatesBtn_clicked = false;
 
-var socket = io.connect('localhost:8080');
+var socket = io.connect(':');
 
 $(document).ready(function () {
 

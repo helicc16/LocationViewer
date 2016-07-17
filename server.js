@@ -7,6 +7,8 @@ var app = express();
 
 var fs = require('fs');
 
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
 app.get('/', function (req, res) {
     fs.readFile('./index.html', 'utf-8', function (error, content) {
@@ -41,21 +43,7 @@ app.get('/', function (req, res) {
     });
 })
 
-/*
-.get('/proj4.js', function(req,res){ 
-    fs.readFile('./proj4.js', 'utf-8', function (error, content) {
-        res.setHeader( "Content-Type", "text/plain" );
-        res.end(content);
-    });
-})
-.get('/mapScript.js', function(req,res){ 
-    fs.readFile('./mapScript.js', 'utf-8', function (error, content) {
-        res.setHeader( "Content-Type", "text/plain" );
-        res.end(content);
-    });
-})
 
-*/
 
 
 .get('/functions.js', function(req,res){ 
@@ -72,7 +60,7 @@ app.get('/', function (req, res) {
     next();
 });
 
-var server = app.listen(8080, '0.0.0.0', function () { // when 'bind' activity is successful, app.listen(...) returns a HTTP server object
+var server = app.listen(server_port, server_ip_address, function () { // when 'bind' activity is successful, app.listen(...) returns a HTTP server object
     var host = server.address().address;
     var port = server.address().port;
     console.log("HTTP server listening at http://%s:%s", host, port);
@@ -128,6 +116,7 @@ io.sockets.on('connection', function (socket) {
             socket.emit('newUpdateRes', content);
         });
     });
+
     /*
     
     socket.on('2ndBearingInput', function (secondBearing) {
@@ -151,7 +140,7 @@ io.sockets.on('connection', function (socket) {
 
     */
 });
-
+/*
 //Creating a TCP server (local) using Node net module
 
 var net = require('net');
@@ -211,3 +200,6 @@ localServer.listen(8081, function () {
 
     console.log('local server listening at port 8081');
 });
+
+
+*/
